@@ -13,7 +13,7 @@ class Category(models.Model):
     def __str__(self) -> str:
         """Метод строкового представления информации о категории продуктов"""
 
-        return f"Категория {self.name}"
+        return str(self.name)
 
     class Meta:
         """Класс представления категории продуктов в админ-панели Django"""
