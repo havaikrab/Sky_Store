@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
-from .models import Product
+from .models import Contact, Product
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -21,6 +21,7 @@ def contacts(request: HttpRequest) -> HttpResponse:
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        print({"name": name, "phone": phone, "message": message})
+        new_contact = Contact.objects.get_or_create(name=name, phone=phone, message=message)
+        print(new_contact[0])
         return render(request, "successful_sending.html")
     return render(request, "contacts.html")
