@@ -25,7 +25,8 @@ class Command(BaseCommand):
 
         for element in products:
             fields = element.get("fields", dict())
-            fields["category"] = Category.objects.get(id=fields.get("category"))
+            category_id = fields.get("category")
+            fields["category"] = Category.objects.get(id=category_id)
             product, created = Product.objects.get_or_create(**fields)
             if created:
                 self.stdout.write(self.style.SUCCESS(f"Продукт {product} успешно добавлен в базу данных"))
