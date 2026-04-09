@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    Feedback form
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input name="name" class="form-control mb-2" placeholder="Name" type="text">
+                        <input name="email" class="form-control mb-2" placeholder="Email" type="email">
+                        <textarea name="message" class="form-control mb-2" placeholder="Your message"></textarea>
+                        <input class="btn btn-primary w-100" type="submit" value="Send"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

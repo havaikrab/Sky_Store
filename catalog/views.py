@@ -8,8 +8,6 @@ def home(request: HttpRequest) -> HttpResponse:
     """Контроллер главной страницы Каталог"""
 
     fresh_products = list(Product.objects.all().order_by("created_at"))[-5:]
-    for product in fresh_products:
-        print(product)
     context = {"fresh_products": fresh_products}
     return render(request, "home.html", context=context)
 
@@ -25,3 +23,9 @@ def contacts(request: HttpRequest) -> HttpResponse:
         print(new_contact[0])
         return render(request, "successful_sending.html")
     return render(request, "contacts.html")
+
+
+def product(request: HttpRequest, pk: int) -> HttpResponse:
+    """Контроллер страницы определенного продукта"""
+
+    return render(request, "product.html", context={"product": Product.objects.get(id=pk)})
