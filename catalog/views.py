@@ -7,11 +7,17 @@ from django.shortcuts import redirect, render
 from .models import Category, Contact, Product
 
 
-def home(request: HttpRequest) -> HttpResponse:
+def home(request: HttpRequest, page_number: int = 1) -> HttpResponse:
     """Контроллер главной страницы Каталог"""
 
-    fresh_products = list(Product.objects.all().order_by("created_at"))[-5:]
-    context = {"fresh_products": fresh_products}
+    products = Product.objects.all().order_by("-created_at")
+    context = None
+    if len(products) > 0:
+        paged_products = [products[i : i + 8] for i in range(0, len(products), 8)]
+        context = {
+            "products": paged_products[page_number - 1],
+            "pages_count": [i + 1 for i in range(len(paged_products))],
+        }
     return render(request, "home.html", context=context)
 
 
@@ -22,8 +28,7 @@ def contacts(request: HttpRequest) -> HttpResponse:
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        new_contact = Contact.objects.get_or_create(name=name, phone=phone, message=message)
-        print(new_contact[0])
+        Contact.objects.get_or_create(name=name, phone=phone, message=message)
         return render(request, "successful_sending.html")
     return render(request, "contacts.html")
 
@@ -37,7 +42,11 @@ def product(request: HttpRequest, pk: int) -> HttpResponse:
 def select_category(request: HttpRequest) -> HttpResponse:
     """Контроллер страницы выбора категории размещаемого товара"""
 
-    return render(request, "select_category.html", context={"categories": Category.objects.all()})
+    categories = Category.objects.all()
+    context = None
+    if len(categories) > 0:
+        context = {"categories": Category.objects.all()}
+    return render(request, "select_category.html", context=context)
 
 
 def create_product(request: HttpRequest, cat_id: int) -> HttpResponse:

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {% for product in fresh_products %}
+    {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
@@ -29,4 +29,12 @@
             </div>
         </div>
     {% endfor %}
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Страницы</h5>
+        <nav class="ms-5">
+            {% for page_number in pages_count %}
+                <a class="p-2 btn btn-outline-primary" style="width: 40px" href="/catalog/page{{page_number}}/">{{ page_number }}</a>
+            {% endfor %}
+        </nav>
+    </div>
 {% endblock %}
