@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} Разместить продукт {% endblock %}
+
+{% block header %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-6">Поделитесь информацией о своем продукте</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h5>В Skystore можно найти продукты из самых разных категорий</h5>
+    <h5>Выберите подходящую для своего продукта из списка ниже или создайте новую, если ничего не подходит</h5>
+    <table class="table table-hover  mt-5">
+        <thead>
+            <tr class="text-start">
+                <th scope="col">Категория</th>
+                <th scope="col">Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+                <tr class="text-start clickable-row" onclick="window.location.href='/create_product/{{category.id}}'">
+                    <td>{{category.name}}</td>
+                    <td>{{category.description}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav class="ms-3 mt-3 text-start">
+        <a class="p-2 btn btn-outline-primary" href="/create_category/">Создать новую категорию</a>
+    </nav>
+{% endblock %}
