@@ -70,7 +70,6 @@ class ContactCreateView(CreateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         """Метод, сообщающий об успешном сохранении контактов пользователя в БД"""
 
-        print(type(form))
         response = super().form_valid(form)
         messages.success(self.request, "Ваша контактная информация сохранена")
         return response

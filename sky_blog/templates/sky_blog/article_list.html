@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %} Sky Blog {% endblock %}
+
+{% block header %}
+    {% include 'sky_blog/header.html' %}
+{% endblock %}
+
+{% block content %}
+    {% for article in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{article.title}}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3 ">
+                        <li class="text-center">
+                            {% if article.preview %}
+                                <img src=" {{article.preview.url}} " alt="{{ article.title }}" style="height: 100px">
+                            {% endif %}
+                        </li>
+                        <li>Дата написания {{ article.created_at|date:"d.m.Y" }}</li>
+                        <li>Статус:
+                            {% if article.is_published %}
+                                Опубликовано
+                            {% else %}
+                                Не опубликовано
+                            {% endif %}
+                        </li>
+                        <li>Количество просмотров {{ article.views_count }}</li>
+                    </ul>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="/article/{{ article.id }}" role="button">Читать</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Страницы</h5>
+        <nav class="ms-5">
+            {% for page in paginator %}
+                <a class="p-2 btn btn-outline-primary" style="width: 40px" href="/blog/page/{{ page.number }}">{{ page.number }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+{% endblock %}

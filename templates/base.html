@@ -9,7 +9,7 @@
 </head>
 <body>
 
-{% include 'catalog/navigation.html' %}
+{% include 'navigation.html' %}
 
 {% block header %}{% endblock %}
 
@@ -49,6 +49,6 @@
         </div>
     </footer>
 </div>
-<!-- Подключите статичеcкие файлы со скриптами Bootstrap -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
