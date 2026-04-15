@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 
 {% block title %} Разместить продукт {% endblock %}
 
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for category in categories %}
+            {% for category in object_list %}
                 <tr class="text-start clickable-row" onclick="window.location.href='/create_product/{{category.id}}'">
                     <td>{{category.name}}</td>
                     <td>{{category.description}}</td>
