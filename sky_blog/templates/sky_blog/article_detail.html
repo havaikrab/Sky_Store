@@ -18,5 +18,7 @@
             </li>
             <li>{{object.content}}</li>
         </ul>
+        <a class="btn btn-primary" href="{% url 'sky_blog:update_article' object.pk %}" role="button">Редакторовать</a>
+        <a class="btn btn-primary" href="{% url 'sky_blog:delete_article' object.pk %}" role="button">Удалить</a>
     </div>
 {% endblock %}
