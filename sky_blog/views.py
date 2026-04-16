@@ -1,10 +1,13 @@
 from typing import Any, Optional
 
+from django.core.mail import send_mail
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+
+from config.settings import EMAIL_HOST_USER
 
 from .models import Article
 
@@ -33,6 +36,18 @@ class ArticleDetailView(DetailView):
         article = super().get_object(queryset)
         article.views_count += 1
         article.save()
+        if article.views_count == 100 and isinstance(EMAIL_HOST_USER, str):
+            try:
+                send_mail(
+                    "Поздравляем!",
+                    f'Статья "{article.title}" была прочитана 100 раз',
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[EMAIL_HOST_USER],
+                    fail_silently=False,
+                )
+                print("Поздравление было успешно отправлено")
+            except TimeoutError:
+                print("Попытка установить соединение была безуспешной.")
         return article
 
 
