@@ -10,6 +10,22 @@ from .forms import CategoryForm, ProductForm
 from .models import Category, Contact, Product
 
 
+def valid_photo(photo: Any, form: BaseModelForm) -> bool:
+    """Метод валидации загружаемого файла в поле фото"""
+
+    valid_extensions = ["jpeg", "png"]
+    file_extension = photo.name.split(".")[-1].lower()
+    if file_extension not in valid_extensions:
+        form.add_error(None, f"Допустимые расширения jpeg или png, расширение {file_extension} не поддерживается")
+        return False
+    if photo.size > 5 * 2**20:
+        form.add_error(
+            None, f"Размер загружаемого файла не должен превышать 5 MB, ваш файл весит {int(photo.size / 2 ** 20)} MB."
+        )
+        return False
+    return True
+
+
 class HomeListView(ListView):
     """Контроллер главной страницы приложения Каталог"""
 
@@ -52,8 +68,13 @@ class ProductCreateView(CreateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         """Переопределение родительского метода, включающее в форму описанное в шаблоне поле photo"""
 
-        form.instance.photo = self.request.FILES.get("photo")
-        return super().form_valid(form)
+        uploaded_photo = self.request.FILES.get("photo")
+        if uploaded_photo is None:
+            return super().form_valid(form)
+        elif valid_photo(uploaded_photo, form):
+            form.instance.photo = uploaded_photo
+            return super().form_valid(form)
+        return self.form_invalid(form)
 
 
 class ProductDetailView(DetailView):
@@ -81,9 +102,12 @@ class ProductUpdateView(UpdateView):
             self.object.photo.delete(save=False)
             self.object.photo = None
         new_photo = self.request.FILES.get("photo")
-        if new_photo is not None:
+        if new_photo is None:
+            return super().form_valid(form)
+        elif valid_photo(new_photo, form):
             self.object.photo = new_photo
-        return super().form_valid(form)
+            return super().form_valid(form)
+        return self.form_invalid(form)
 
 
 class ProductDeleteView(DeleteView):
