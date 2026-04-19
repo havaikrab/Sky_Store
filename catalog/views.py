@@ -1,11 +1,10 @@
-from typing import Any
-
 from django.contrib import messages
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
+from .forms import CategoryForm, ProductForm
 from .models import Category, Contact, Product
 
 
@@ -23,7 +22,7 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class SelectCategoryListView(ListView):
+class CategoryListView(ListView):
     """Контроллер страницы выбора категории размещаемого продукта"""
 
     model = Category
@@ -33,31 +32,26 @@ class CategoryCreateView(CreateView):
     """Контроллер страницы создания новой категории продуктов"""
 
     model = Category
-    fields = ("name", "description")
+    form_class = CategoryForm
     success_url = reverse_lazy("catalog:select_category")
 
 
-class CreateProductCreateView(CreateView):
+class ProductCreateView(CreateView):
     """Контроллер страницы создания нового продукта"""
 
     model = Product
-    fields = ("name", "description", "photo", "price")
+    form_class = ProductForm
     success_url = reverse_lazy("catalog:home")
 
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        """Метод, устанавливающий значение поля Category, переданное в url"""
+    def get_initial(self) -> dict:
+        """Метод, предопределяющий значение категории продукта"""
 
+        initial = super().get_initial()
         category_id = self.kwargs.get("cat_id")
-        form.instance.category_id = category_id
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs: Any) -> dict:
-        """Метод, добавляющий в контекст шаблона информацию о категории создаваемого продукта"""
-
-        category_id = self.kwargs.get("cat_id")
-        context = super().get_context_data(**kwargs)
-        context["category"] = Category.objects.get(id=category_id)
-        return context
+        if category_id:
+            current_category = Category.objects.get(id=category_id)
+            initial["category"] = current_category
+        return initial
 
 
 class ContactCreateView(CreateView):
