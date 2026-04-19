@@ -1,81 +1,75 @@
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import UploadedFile
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
+from typing import Any
+
+from django.contrib import messages
+from django.forms import BaseModelForm
+from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView
 
 from .models import Category, Contact, Product
 
 
-def home(request: HttpRequest, page_number: int = 1) -> HttpResponse:
-    """Контроллер главной страницы Каталог"""
+class HomeListView(ListView):
+    """Контроллер главной страницы приложения Каталог"""
 
-    products = Product.objects.all().order_by("-created_at")
-    context = None
-    if len(products) > 0:
-        paged_products = [products[i : i + 8] for i in range(0, len(products), 8)]
-        context = {
-            "products": paged_products[page_number - 1],
-            "pages_count": [i + 1 for i in range(len(paged_products))],
-        }
-    return render(request, "home.html", context=context)
+    model = Product
+    paginate_by = 8
+    ordering = ["-created_at"]
 
 
-def contacts(request: HttpRequest) -> HttpResponse:
-    """Контроллер страницы Контакты"""
+class ProductDetailView(DetailView):
+    """Контроллер отображения страницы определенного продукта"""
 
-    if request.method == "POST":
-        name = request.POST.get("name")
-        phone = request.POST.get("phone")
-        message = request.POST.get("message")
-        Contact.objects.get_or_create(name=name, phone=phone, message=message)
-        return render(request, "successful_sending.html")
-    return render(request, "contacts.html")
+    model = Product
 
 
-def product(request: HttpRequest, pk: int) -> HttpResponse:
-    """Контроллер страницы определенного продукта"""
+class SelectCategoryListView(ListView):
+    """Контроллер страницы выбора категории размещаемого продукта"""
 
-    return render(request, "product.html", context={"product": Product.objects.get(id=pk)})
-
-
-def select_category(request: HttpRequest) -> HttpResponse:
-    """Контроллер страницы выбора категории размещаемого товара"""
-
-    categories = Category.objects.all()
-    context = None
-    if len(categories) > 0:
-        context = {"categories": Category.objects.all()}
-    return render(request, "select_category.html", context=context)
+    model = Category
 
 
-def create_product(request: HttpRequest, cat_id: int) -> HttpResponse:
-    """Контроллер страницы размещения новых продуктов"""
-
-    current_category = Category.objects.get(id=cat_id)
-    if request.method == "POST":
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        path_to_photo = None
-        if request.POST.get("photo"):
-            file = request.FILES["photo"]
-            if isinstance(file, UploadedFile):
-                default_storage.save(f"images/{file.name}", ContentFile(file.read()))
-                path_to_photo = f"images/{file.name}"
-        price = request.POST.get("price")
-        Product.objects.create(
-            name=name, description=description, photo=path_to_photo, price=price, category=current_category
-        )
-        return render(request, "successful_sending.html")
-    return render(request, "create_product.html", context={"category": current_category})
-
-
-def create_category(request: HttpRequest) -> HttpResponse:
+class CategoryCreateView(CreateView):
     """Контроллер страницы создания новой категории продуктов"""
 
-    if request.method == "POST":
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        Category.objects.create(name=name, description=description)
-        return redirect("/select_category/")
-    return render(request, "create_category.html")
+    model = Category
+    fields = ("name", "description")
+    success_url = reverse_lazy("catalog:select_category")
+
+
+class CreateProductCreateView(CreateView):
+    """Контроллер страницы создания нового продукта"""
+
+    model = Product
+    fields = ("name", "description", "photo", "price")
+    success_url = reverse_lazy("catalog:home")
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        """Метод, устанавливающий значение поля Category, переданное в url"""
+
+        category_id = self.kwargs.get("cat_id")
+        form.instance.category_id = category_id
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs: Any) -> dict:
+        """Метод, добавляющий в контекст шаблона информацию о категории создаваемого продукта"""
+
+        category_id = self.kwargs.get("cat_id")
+        context = super().get_context_data(**kwargs)
+        context["category"] = Category.objects.get(id=category_id)
+        return context
+
+
+class ContactCreateView(CreateView):
+    """Контроллер страницы Контакты"""
+
+    model = Contact
+    fields = ("name", "phone", "message")
+    success_url = reverse_lazy("catalog:contacts")
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        """Метод, сообщающий об успешном сохранении контактов пользователя в БД"""
+
+        response = super().form_valid(form)
+        messages.success(self.request, "Ваша контактная информация сохранена")
+        return response
