@@ -3,20 +3,52 @@
 {% block title %} Разместить продукт {% endblock %}
 
 {% block header %}
+    {% if not object %}
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h6 class="display-6">Здесь вы можете рассказать о своем продукте и сделать его доступным другим пользователям</h6>
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="col-lg-3 col-md-6 col-sm-12">
         <div class="card mb-4 box-shadow" style="width: 500px">
+            {% if object %}
+            <h4 class="card-header my-0 font-weight-normal">Внесите изменения</h4>
+            {% else %}
             <h4 class="card-header my-0 font-weight-normal">Расскажите о продукте</h4>
+            {% endif %}
             <div class="card-body">
                 <form method="post" action="" class="form-floating text-start" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Опубликовать</button>
+                    <div class="mb-3">
+                        {% if object.photo %}
+                            <div class="mt-2">
+                                <p>Текущее изображение:</p>
+                                <img src="{{ object.photo.url }}" alt="{{ object.name }}" style="max-width: 100%; max-height: 100px;" class="mt-1">
+                                <div class="mb-3 form-check">
+                                    <label class="form-check-label" for="delete_photo">Удалить фото</label>
+                                    <input type="checkbox" name="delete_photo" class="form-check-input" id="delete_photo" value="true">
+                                </div>
+                            </div>
+                        {% endif %}
+                        <label for="photo">
+                            {% if object.photo %}
+                                Сменить фото
+                            {% else %}
+                                Фото
+                            {% endif %}
+                        </label>
+                        <input type="file" name="photo" class="form-control" id="photo" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">
+                        {% if object %}
+                            Применить
+                        {% else %}
+                            Опубликовать
+                        {% endif %}
+                    </button>
                 </form>
             </div>
         </div>

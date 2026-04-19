@@ -1,8 +1,10 @@
+from typing import Any
+
 from django.contrib import messages
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import CategoryForm, ProductForm
 from .models import Category, Contact, Product
@@ -14,12 +16,6 @@ class HomeListView(ListView):
     model = Product
     paginate_by = 8
     ordering = ["-created_at"]
-
-
-class ProductDetailView(DetailView):
-    """Контроллер отображения страницы определенного продукта"""
-
-    model = Product
 
 
 class CategoryListView(ListView):
@@ -52,6 +48,56 @@ class ProductCreateView(CreateView):
             current_category = Category.objects.get(id=category_id)
             initial["category"] = current_category
         return initial
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        """Переопределение родительского метода, включающее в форму описанное в шаблоне поле photo"""
+
+        form.instance.photo = self.request.FILES.get("photo")
+        return super().form_valid(form)
+
+
+class ProductDetailView(DetailView):
+    """Контроллер отображения страницы определенного продукта"""
+
+    model = Product
+
+
+class ProductUpdateView(UpdateView):
+    """Контроллер страницы редактирования информации о продукте"""
+
+    model = Product
+    form_class = ProductForm
+
+    def get_success_url(self) -> Any:
+        """Метод получения url после редактирования информации о продукте"""
+
+        return reverse_lazy("catalog:product", kwargs={"pk": self.object.pk})
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        """Добавление возможности обновить поле photo или удалить его содержимое из БД"""
+
+        delete_photo = self.request.POST.get("delete_photo")
+        if delete_photo == "true":
+            self.object.photo.delete(save=False)
+            self.object.photo = None
+        new_photo = self.request.FILES.get("photo")
+        if new_photo is not None:
+            self.object.photo = new_photo
+        return super().form_valid(form)
+
+
+class ProductDeleteView(DeleteView):
+    """Контроллер удаления продукта"""
+
+    model = Product
+    success_url = reverse_lazy("catalog:home")
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        """Метод, проверяющий необходимость удалить существующее в фото продукта"""
+
+        if self.object.photo is not None:
+            self.object.photo.delete(save=False)
+        return super().form_valid(form)
 
 
 class ContactCreateView(CreateView):
