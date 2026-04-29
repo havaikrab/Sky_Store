@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% block header %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h6 class="display-6">Регистрация</h6>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card mb-4 box-shadow" style="width: 500px">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Новый пользователь</h4>
+            </div>
+            <div class="card-body text-start">
+                <form method="post" action="" class="form-floating">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             {% for category in object_list %}
-                <tr class="text-start clickable-row" onclick="window.location.href='/create_product/{{category.id}}/'">
+                <tr class="text-start clickable-row" onclick="window.location.href='{% url 'catalog:create_product' cat_id=category.id %}'">
                     <td>{{category.name}}</td>
                     <td>{{category.description}}</td>
                 </tr>
@@ -27,6 +27,6 @@
         </tbody>
     </table>
     <nav class="ms-3 mt-3 text-start">
-        <a class="p-2 btn btn-outline-primary" href="/create_category/">Создать новую категорию</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:create_category' %}">Создать новую категорию</a>
     </nav>
 {% endblock %}

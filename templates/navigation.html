@@ -1,10 +1,11 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Skystore</h5>
     <nav class="ms-5">
-        <a class="p-2 btn btn-outline-primary" href="/">Каталог</a>
-        <a class="p-2 btn btn-outline-primary" href="/create_product/">Поделиться продуктом</a>
-        <a class="p-2 btn btn-outline-primary" href="/blog/page/1/">Sky Blog</a>
-        <a class="p-2 btn btn-outline-primary" href="/create_article/">Написать статью</a>
-        <a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Каталог</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:create_product_no_category' %}">Поделиться продуктом</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:blog' page=1 %}">Sky Blog</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:create_article' %}">Написать статью</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
     </nav>
 </div>
