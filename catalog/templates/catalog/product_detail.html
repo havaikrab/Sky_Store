@@ -20,5 +20,7 @@
             <li>Описание: {{object.description}}</li>
             <li>Цена: {{object.price}} рублей</li>
         </ul>
+        <a class="btn btn-primary" href="{% url 'catalog:update_product' object.pk %}" role="button">Редакторовать</a>
+        <a class="btn btn-primary" href="{% url 'catalog:delete_product' object.pk %}" role="button">Удалить</a>
     </div>
 {% endblock %}

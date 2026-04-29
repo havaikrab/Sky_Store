@@ -4,23 +4,22 @@
 
 {% block header %}
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-6">Поделитесь информацией о своем продукте</h1>
+        <h6 class="display-6">В Skystore есть множество категорий продуктов</h6>
+        <h5>Ознакомьтесь с описанием существующих и выберите подходящую для своего продукта, или создайте свою.</h5>
     </div>
 {% endblock %}
 
 {% block content %}
-    <h5>В Skystore можно найти продукты из самых разных категорий</h5>
-    <h5>Выберите подходящую для своего продукта из списка ниже или создайте новую, если ничего не подходит</h5>
     <table class="table table-hover  mt-5">
         <thead>
             <tr class="text-start">
-                <th scope="col">Категория</th>
-                <th scope="col">Описание</th>
+                <th scope="col" class="col-2">Категория</th>
+                <th scope="col" class="col-10">Описание</th>
             </tr>
         </thead>
         <tbody>
             {% for category in object_list %}
-                <tr class="text-start clickable-row" onclick="window.location.href='/create_product/{{category.id}}'">
+                <tr class="text-start clickable-row" onclick="window.location.href='/create_product/{{category.id}}/'">
                     <td>{{category.name}}</td>
                     <td>{{category.description}}</td>
                 </tr>

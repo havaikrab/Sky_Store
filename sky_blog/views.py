@@ -74,7 +74,7 @@ class UpdateArticle(UpdateView):
         """Метод, проверяющий необходимость удалить существующее в статье изображение"""
 
         delete_preview = self.request.POST.get("delete_image")
-        if delete_preview is not None:
+        if delete_preview is True:
             self.object.preview.delete(save=False)
             self.object.preview = None
         return super().form_valid(form)
@@ -91,5 +91,4 @@ class DeleteArticle(DeleteView):
 
         if self.object.preview is not None:
             self.object.preview.delete(save=False)
-            self.object.preview = None
         return super().form_valid(form)
