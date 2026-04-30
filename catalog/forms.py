@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 
 from .models import Category, Product
 
+
 FORBIDDEN_WORDS = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар"]
 
 

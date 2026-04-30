@@ -1,6 +1,8 @@
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
+
 
 load_dotenv(override=True)
 
@@ -19,6 +21,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     'catalog',
     'sky_blog',
@@ -107,3 +112,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

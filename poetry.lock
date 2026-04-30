@@ -111,6 +111,22 @@ files = [
 markers = {dev = "sys_platform == \"win32\"", lint = "platform_system == \"Windows\""}
 
 [[package]]
+name = "crispy-bootstrap5"
+version = "2026.3"
+description = "Bootstrap5 template pack for django-crispy-forms"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "crispy_bootstrap5-2026.3-py3-none-any.whl", hash = "sha256:e0fff85c0503e9aed610a0ee31368e2191d340657f813669491c288c1c2e2dfa"},
+    {file = "crispy_bootstrap5-2026.3.tar.gz", hash = "sha256:e7f5adb36acfbb456444c46e82c436931c796c539e9c620be4fa9dc9c9d6679c"},
+]
+
+[package.dependencies]
+django = ">=4.2"
+django-crispy-forms = ">=2.3"
+
+[[package]]
 name = "decorator"
 version = "5.2.1"
 description = "Decorators for Humans"
@@ -142,6 +158,21 @@ tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 [package.extras]
 argon2 = ["argon2-cffi (>=23.1.0)"]
 bcrypt = ["bcrypt (>=4.1.1)"]
+
+[[package]]
+name = "django-crispy-forms"
+version = "2.6"
+description = "Best way to have Django DRY forms"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "django_crispy_forms-2.6-py3-none-any.whl", hash = "sha256:8ee0ae28b6b0ac41ff48a65944480c049fe8d1b0047086874fd7efabf4ec1374"},
+    {file = "django_crispy_forms-2.6.tar.gz", hash = "sha256:4921a1087c6cd4f9fa3c139654c1de1c1c385f8bd6729aaee530bc0121ab4b93"},
+]
+
+[package.dependencies]
+django = ">=5.2"
 
 [[package]]
 name = "executing"
@@ -972,4 +1003,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "25a15b746fd4e84abe65081ca29b131a4db7615acdf91bec762cbffc72b5edd9"
+content-hash = "9b1f9daa9ab9320e402f8ba902a7e5eb6239a49ac57d00db1b20c91d161b23fe"
