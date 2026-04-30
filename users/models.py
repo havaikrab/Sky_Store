@@ -7,8 +7,8 @@ class CustomUser(AbstractUser):
 
     email = models.EmailField(unique=True, blank=False, null=False, verbose_name="Адрес электронной почты")
     avatar = models.ImageField(upload_to="avatars", blank=True, null=True, verbose_name="Фото")
-    phone_number = models.CharField(max_length=15, blank=True, null=True, verbose_name="Телефон")
-    country = models.CharField(max_length=100, blank=True, null=True, verbose_name="Страна")
+    phone_number: models.CharField = models.CharField(max_length=15, blank=True, null=True, verbose_name="Телефон")
+    country: models.CharField = models.CharField(max_length=100, blank=True, null=True, verbose_name="Страна")
 
     class Meta:
         """Класс представления пользователя в админ-панели"""
@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Метод строкового представления пользователя"""
 
         return f"{self.username}: {self.email}"

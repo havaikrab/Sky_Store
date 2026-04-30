@@ -1,5 +1,6 @@
 from typing import Any, Optional
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
@@ -51,7 +52,7 @@ class ArticleDetailView(DetailView):
         return article
 
 
-class CreateArticle(CreateView):
+class CreateArticle(LoginRequiredMixin, CreateView):
     """Контроллер страницы написания новой статьи"""
 
     model = Article

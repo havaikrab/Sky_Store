@@ -13,7 +13,9 @@ dependencies = [
     "psycopg2-binary (>=2.9.11,<3.0.0)",
     "pillow (>=12.2.0,<13.0.0)",
     "django-crispy-forms (>=2.6,<3.0)",
-    "crispy-bootstrap5 (>=2026.3,<2027.0)"
+    "crispy-bootstrap5 (>=2026.3,<2027.0)",
+    "django-stubs (>=6.0.3,<7.0.0)",
+    "mypy (>=1.20.2,<2.0.0)"
 ]
 
 
@@ -54,3 +56,7 @@ venv
 disallow_untyped_defs = true
 warn_return_any = true
 exclude_gitignore = true
+
+[[tool.mypy.overrides]]
+module = ["crispy_forms.*"]
+ignore_missing_imports = true

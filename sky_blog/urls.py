@@ -3,7 +3,6 @@ from django.urls import path
 from . import views
 from .apps import SkyBlogConfig
 
-
 app_name = SkyBlogConfig.name
 
 urlpatterns = [
