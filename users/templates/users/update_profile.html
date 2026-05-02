@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Обновление профиля {% endblock %}
+
+{% block header %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h6 class="display-6">Укажите новые данные в форме справа</h6>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-3 text-start">
+        {% if user.is_authenticated %}
+            <p style="color: grey">Имя пользователя</p>
+            <h3 class="mb-5">{{user.username}}</h3>
+            <p style="color: grey">Адрес электронной почты</p>
+            <h3 class="mb-5">{{user.email}}</h3>
+            <p style="color: grey">Телефон</p>
+            <h3 class="mb-5">{{user.phone_number}}</h3>
+            <p style="color: grey">Страна</p>
+            <h3 class="mb-5">{{user.country}}</h3>
+        {% endif %}
+    </div>
+    <div class="col-5">
+        {% if user.avatar %}
+            <img src=" {{user.avatar.url}} " alt="{{ user.username }}" style="width: 350px" class="me-5">
+        {% endif %}
+    </div>
+    <div class="col-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Редактирование профиля {{user.username}}</h4>
+            </div>
+            <div class="card-body text-start">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% crispy form %}
+                </form>
+                {% for message in messages %}
+                    {% if 'S_P_CH' in message.tags %}
+                        <div class='m-4'><i style="color:green">{{ message.message }}</i></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

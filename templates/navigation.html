@@ -3,12 +3,13 @@
     <nav class="ms-5 container-fluid d-flex align-items-center gap-2">
 
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Каталог</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:create_product_no_category' %}">Поделиться продуктом</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:blog' page=1 %}">Sky Blog</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:create_article' %}">Написать статью</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
         {% if user.is_authenticated %}
-            <form method="post" action="{% url 'users:logout' %}" class="ms-auto">
+            <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:create_product_no_category' %}">Поделиться продуктом</a>
+            <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:create_article' %}">Написать статью</a>
+            <a class="p-2 btn btn-outline-primary ms-auto" href="{% url 'users:profile' %}">Профиль</a>
+            <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
                 <button type="submit"  class="p-2 btn btn-outline-primary">Выйти</button>
             </form>

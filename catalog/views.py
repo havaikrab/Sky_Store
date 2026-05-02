@@ -27,7 +27,7 @@ class CategoryListView(ListView):
     model = Category
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     """Контроллер страницы создания новой категории продуктов"""
 
     model = Category
@@ -60,7 +60,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
         elif common_file_validator(
             file=uploaded_photo, form=form, valid_extensions=["jpeg", "png", "jpg"], size_limit=5, field_name=None
-        ):  # Переделать форму на crispy-forms, добавить field_name='photo'
+        ):
             form.instance.photo = uploaded_photo
             return super().form_valid(form)
         return self.form_invalid(form)
@@ -72,7 +72,7 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """Контроллер страницы редактирования информации о продукте"""
 
     model = Product
@@ -99,7 +99,7 @@ class ProductUpdateView(UpdateView):
         return self.form_invalid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """Контроллер удаления продукта"""
 
     model = Product

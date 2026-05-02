@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} {{user.username}} {% endblock %}
+
+{% block header %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h6 class="display-6">Sky Store приветствует тебя {{user.username}}</h6>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-3 text-start">
+        <p style="color: grey">Имя пользователя</p>
+        <h3 class="mb-5">{{user.username}}</h3>
+        <p style="color: grey">Адрес электронной почты</p>
+        <h3 class="mb-5">{{user.email}}</h3>
+        <p style="color: grey">Телефон</p>
+        <h3 class="mb-5">{{user.phone_number}}</h3>
+        <p style="color: grey">Страна</p>
+        <h3 class="mb-5">{{user.country}}</h3>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:update_profile' %}">Редактировать профиль</a>
+    </div>
+    <div class="col-5">
+        {% if user.avatar %}
+            <img src=" {{user.avatar.url}} " alt="{{ user.username }}" style="width: 350px" class="me-5">
+        {% endif %}
+    </div>
+{% endblock %}
