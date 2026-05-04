@@ -24,7 +24,7 @@
                         <li>{{product.category}}</li>
                         <li>{{product.description|truncatechars:100}}</li>
                     </ul>
-                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="/product/{{ product.id }}" role="button">Подробнее</a>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product' pk=product.id %}" role="button">Подробнее</a>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Страницы</h5>
         <nav class="ms-5">
             {% for page in paginator %}
-                <a class="p-2 btn btn-outline-primary" style="width: 40px" href="/catalog/page/{{ page.number }}/">{{ page.number }}</a>
+                <a class="p-2 btn btn-outline-primary" style="width: 40px" href="{% url 'catalog:catalog' page=page.number %}">{{ page.number }}</a>
             {% endfor %}
         </nav>
     </div>

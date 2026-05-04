@@ -1,4 +1,8 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Skystore</h1>
-    <p class="lead">Skystore - это отличное место, чтобы купить или продать лучший продукт</p>
+    {% if user.is_authenticated %}
+        <h1 class="display-4">Ознакомьтесь с последними новинками {{user.username}}</h1>
+    {% else %}
+        <h1 class="display-4">Skystore</h1>
+        <p class="lead">Skystore - это отличное место, чтобы купить или продать лучший продукт</p>
+    {% endif %}
 </div>

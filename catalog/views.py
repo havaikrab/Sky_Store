@@ -1,29 +1,16 @@
 from typing import Any
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from support_funcs.validators import common_file_validator
+
 from .forms import CategoryForm, ProductForm
 from .models import Category, Contact, Product
-
-
-def valid_photo(photo: Any, form: BaseModelForm) -> bool:
-    """Метод валидации загружаемого файла в поле фото"""
-
-    valid_extensions = ["jpeg", "png"]
-    file_extension = photo.name.split(".")[-1].lower()
-    if file_extension not in valid_extensions:
-        form.add_error(None, f"Допустимые расширения jpeg или png, расширение {file_extension} не поддерживается")
-        return False
-    if photo.size > 5 * 2**20:
-        form.add_error(
-            None, f"Размер загружаемого файла не должен превышать 5 MB, ваш файл весит {int(photo.size / 2 ** 20)} MB."
-        )
-        return False
-    return True
 
 
 class HomeListView(ListView):
@@ -40,7 +27,7 @@ class CategoryListView(ListView):
     model = Category
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     """Контроллер страницы создания новой категории продуктов"""
 
     model = Category
@@ -48,7 +35,7 @@ class CategoryCreateView(CreateView):
     success_url = reverse_lazy("catalog:select_category")
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     """Контроллер страницы создания нового продукта"""
 
     model = Product
@@ -71,7 +58,9 @@ class ProductCreateView(CreateView):
         uploaded_photo = self.request.FILES.get("photo")
         if uploaded_photo is None:
             return super().form_valid(form)
-        elif valid_photo(uploaded_photo, form):
+        elif common_file_validator(
+            file=uploaded_photo, form=form, valid_extensions=["jpeg", "png", "jpg"], size_limit=5, field_name=None
+        ):
             form.instance.photo = uploaded_photo
             return super().form_valid(form)
         return self.form_invalid(form)
@@ -83,7 +72,7 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """Контроллер страницы редактирования информации о продукте"""
 
     model = Product
@@ -104,13 +93,13 @@ class ProductUpdateView(UpdateView):
         new_photo = self.request.FILES.get("photo")
         if new_photo is None:
             return super().form_valid(form)
-        elif valid_photo(new_photo, form):
+        elif common_file_validator(file=new_photo, form=form, valid_extensions=["jpeg", "png"], size_limit=5):
             self.object.photo = new_photo
             return super().form_valid(form)
         return self.form_invalid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """Контроллер удаления продукта"""
 
     model = Product

@@ -14,9 +14,9 @@
     <div class="col-lg-3 col-md-6 col-sm-12">
         <div class="card mb-4 box-shadow" style="width: 500px">
             {% if object %}
-            <h4 class="card-header my-0 font-weight-normal">Внесите изменения</h4>
+                <h4 class="card-header my-0 font-weight-normal">Внесите изменения</h4>
             {% else %}
-            <h4 class="card-header my-0 font-weight-normal">Расскажите о продукте</h4>
+                <h4 class="card-header my-0 font-weight-normal">Расскажите о продукте</h4>
             {% endif %}
             <div class="card-body">
                 <form method="post" action="" class="form-floating text-start" enctype="multipart/form-data">
@@ -55,6 +55,6 @@
     </div>
     <div class="text-start">
         <h4 class="mb-4">Не нашли подходящую категорию? Создайте свою!</h4>
-        <a class="p-2 btn btn-outline-primary" href="/select_category/">Создать категорию продуктов</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:select_category' %}">Создать категорию продуктов</a>
     </div>
 {% endblock %}
