@@ -1,19 +1,13 @@
 from typing import Any
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Field, Layout, Submit
 from django import forms
 from django.core.exceptions import ValidationError
 
+from support_funcs.validators import validate_forbidden_words
+
 from .models import Category, Product
-
-FORBIDDEN_WORDS = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар"]
-
-
-def validate_forbidden_words(value: str) -> None:
-    """Функция-валидатор, исключающая использование слов из списка FORBIDDEN_WORDS"""
-
-    for word in FORBIDDEN_WORDS:
-        if word in value.lower():
-            raise ValidationError(f"Запрещено использовать слово {word}!")
 
 
 class CategoryForm(forms.ModelForm):
@@ -40,22 +34,35 @@ class ProductForm(forms.ModelForm):
         """Класс содержания формы"""
 
         model = Product
-        fields = ["name", "description", "price", "category"]
+        fields = ["name", "description", "price", "category", "photo"]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Переопределение родительского метода, для стилизации формы"""
 
         super(ProductForm, self).__init__(*args, **kwargs)
-        self.fields["name"].widget.attrs.update(
-            {"class": "form-control errors_list", "placeholder": "Введите название"}
-        )
+        self.helper = FormHelper()
+        self.helper.form_tag = False
         self.fields["name"].validators.append(validate_forbidden_words)
-        self.fields["description"].widget.attrs.update(
-            {"class": "form-control errors_list", "placeholder": "Опишите продукт"}
-        )
+        self.fields["name"].error_messages = {
+            "required": "Пожалуйста, введите название продукта.",
+            "max_length": "Слишком длинное название. Используйте не более 1133 символов.",
+            "unique": "Продукт с таким названием уже существует",
+        }
         self.fields["description"].validators.append(validate_forbidden_words)
-        self.fields["price"].widget.attrs.update({"class": "form-control", "placeholder": "Укажите цену в рублях"})
-        self.fields["category"].widget.attrs.update({"class": "form-control"})
+        button = Submit("submit", "Сохранить")
+        button.field_classes = "p-2 btn btn-outline-primary"
+        self.helper.layout = Layout(
+            Field(
+                "name",
+                placeholder="Введите название",
+                css_class="errors_list",
+            ),
+            Field("description", placeholder="Опишите продукт", css_class="errors_list"),
+            Field("price", placeholder="Укажите цену в рублях"),
+            "category",
+            "photo",
+            button,
+        )
 
     def clean_price(self) -> int:
         """Валидатор поля price"""

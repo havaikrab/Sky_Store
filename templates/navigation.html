@@ -19,3 +19,11 @@
         {% endif %}
     </nav>
 </div>
+{% if perms.catalog.can_unpublish_product %}
+    <div class="d-flex flex-row align-items-center mb-3 pb-3 ps-5 border-bottom">
+        <h5 style="color: red; white-space: nowrap">Инструменты модератора</h5>
+        <nav class="ms-1 container-fluid d-flex align-items-center gap-2">
+            <a class="p-2 btn btn-outline-danger" href="{% url 'catalog:moderator_control' %}">Публикация продуктов</a>
+        </nav>
+    </div>
+{% endif %}

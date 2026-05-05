@@ -21,7 +21,7 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Переопределение стилизации формы с помощью библиотеки crispy-forms"""
 
-        super().__init__(*args, **kwargs)
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
         button = Submit("submit", "Зарегистрироваться")
