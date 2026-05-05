@@ -7,8 +7,8 @@ from django.db.models import QuerySet
 from django.db.models.fields.files import ImageFieldFile
 from django.forms import BaseModelForm
 from django.http import HttpResponse
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, RedirectView, UpdateView
 
 from support_funcs.validators import common_file_validator
 from users.models import CustomUser
@@ -95,11 +95,17 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         uploaded_photo = self.request.FILES.get("photo")
         if uploaded_photo is None:
+            messages.success(
+                self.request, "Ваш продукт станет доступным в каталоге Sky Store после проверки модератором"
+            )
             return super().form_valid(form)
         elif common_file_validator(
             file=uploaded_photo, form=form, valid_extensions=["jpeg", "png"], size_limit=5, field_name="photo"
         ):
             form.instance.photo = uploaded_photo
+            messages.success(
+                self.request, "Ваш продукт станет доступным в каталоге Sky Store после проверки модератором"
+            )
             return super().form_valid(form)
         return self.form_invalid(form)
 
@@ -154,6 +160,10 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         if self.old_photo:
             if clear_photo == "on" or new_photo:
                 self.old_photo.delete(save=False)
+        messages.success(
+            self.request,
+            """Ваш измененный продукт ожидает проверки модератором, скоро он станет доступным в каталоге Sky Store""",
+        )
         return response
 
 
@@ -193,3 +203,41 @@ class ContactCreateView(CreateView):
         response = super().form_valid(form)
         messages.success(self.request, "Ваша контактная информация сохранена")
         return response
+
+
+class ProductPublishView(PermissionRequiredMixin, RedirectView):
+    """Контроллер подтверждения статуса публикации продукта"""
+
+    permanent = False
+    permission_required = "catalog.can_unpublish_product"
+
+    def get_redirect_url(self, *args: Any, **kwargs: Any) -> str:
+        """Изменение статуса публикации продукта без рендеринга отдельной страницы
+        и редирект на страницу каталога опубликованных продуктов"""
+
+        product_id = kwargs.get("pk")
+        product = Product.objects.get(id=product_id)
+        if isinstance(product, Product):
+            product.is_published = True
+            product.save()
+        return reverse("catalog:home")
+
+
+class ProductRejectView(RedirectView):
+    """Контроллер подтверждения статуса публикации продукта"""
+
+    permanent = False
+
+    def get_redirect_url(self, *args: Any, **kwargs: Any) -> str:
+        """Изменение статуса публикации продукта без рендеринга отдельной страницы
+        и редирект на страницу каталога опубликованных продуктов"""
+
+        product_id = kwargs.get("pk")
+        product = Product.objects.get(id=product_id)
+        current_user = self.request.user
+        if isinstance(product, Product) and isinstance(current_user, CustomUser):
+            if current_user.has_perm("catalog.can_unpublish_product") or current_user == product.owner:
+                product.is_published = False
+                product.save()
+                return reverse("catalog:home")
+        raise PermissionDenied

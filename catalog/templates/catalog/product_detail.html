@@ -25,9 +25,14 @@
                 <a class="btn btn-outline-primary" href="{% url 'catalog:update_product' pk=object.pk %}" role="button">Редакторовать</a>
             {% endif %}
             {% if moderator %}
-                <a class="btn btn-outline-success" href="{% url 'catalog:delete_product' pk=object.pk %}" role="button">Опубликовать</a>
+                {% if not object.is_published %}
+                    <a class="btn btn-outline-success" href="{% url 'catalog:publish_product' pk=object.pk %}" role="button">Опубликовать</a>
+                {% endif %}
             {% endif %}
-            {% if moderator or owner%}
+            {% if moderator or owner %}
+                {% if object.is_published %}
+                    <a class="btn btn-outline-warning" href="{% url 'catalog:reject_product' pk=object.pk %}" role="button">Отозвать публикацию</a>
+                {% endif %}
                 <a class="btn btn-outline-primary" href="{% url 'catalog:delete_product' pk=object.pk %}" role="button">Удалить</a>
             {% endif %}
         {% endif %}

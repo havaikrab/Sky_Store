@@ -5,6 +5,9 @@
         {% else %}
             <h4 class="ps-5 pb-5 pt-3">Список продуктов, требующих одобрения публикации</h4>
         {% endif %}
+        {% for message in messages %}
+            <div class="m-3" style="color:green"><i>{{ message }}</i></div>
+        {% endfor%}
     {% else %}
         <div class="pricing-header mb-5 text-center">
             <h1 class="display-4">Skystore</h1>

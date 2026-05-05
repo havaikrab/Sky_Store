@@ -1,9 +1,10 @@
 from typing import Any
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Field, Layout, Submit
+from crispy_forms.layout import HTML, Field, Layout, Submit
 from django import forms
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 
 from support_funcs.validators import validate_forbidden_words
 
@@ -51,6 +52,12 @@ class ProductForm(forms.ModelForm):
         self.fields["description"].validators.append(validate_forbidden_words)
         button = Submit("submit", "Сохранить")
         button.field_classes = "p-2 btn btn-outline-primary"
+        instance = self.instance
+        if instance and instance.pk:
+            cancel_url = reverse("catalog:product", kwargs={"pk": instance.pk})
+        else:
+            cancel_url = reverse("catalog:home")
+        cancel_button = HTML(f'<a href="{cancel_url}" class="p-2 btn btn-outline-primary">Отмена</a>')
         self.helper.layout = Layout(
             Field(
                 "name",
@@ -62,6 +69,7 @@ class ProductForm(forms.ModelForm):
             "category",
             "photo",
             button,
+            cancel_button,
         )
 
     def clean_price(self) -> int:
