@@ -1,0 +1,67 @@
+{
+    "articles": [
+        {
+            "title": "common_pub",
+            "content": "nssrtnsrtnsn",
+            "preview": "",
+            "is_published": true,
+            "views_count": 6
+        },
+        {
+            "title": "common_user",
+            "content": "dtymdytmdtymdm",
+            "preview": "",
+            "is_published": true,
+            "views_count": 12
+        },
+        {
+            "title": "djdtyjtykdtd",
+            "content": "ggjhljmnrttjr",
+            "preview": "",
+            "is_published": false,
+            "views_count": 8
+        },
+        {
+            "title": "dtykfuylflf",
+            "content": "yfululfukdykdtyk",
+            "preview": "",
+            "is_published": false,
+            "views_count": 10
+        },
+        {
+            "title": "tjdythsreg",
+            "content": "fukyjthrg",
+            "preview": "",
+            "is_published": true,
+            "views_count": 7
+        },
+        {
+            "title": "trhreereb",
+            "content": "yyukgilukyjthrg",
+            "preview": "",
+            "is_published": true,
+            "views_count": 5
+        },
+        {
+            "title": "trhrsthth",
+            "content": "rtrrrrtht",
+            "preview": "",
+            "is_published": true,
+            "views_count": 14
+        },
+        {
+            "title": "ui;ilkdyt",
+            "content": "jdyjdtyk",
+            "preview": "",
+            "is_published": true,
+            "views_count": 2
+        },
+        {
+            "title": "неопубликованная",
+            "content": "рпбапорлпюрбпьтаи",
+            "preview": "",
+            "is_published": true,
+            "views_count": 14
+        }
+    ]
+}

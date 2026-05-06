@@ -1,0 +1,165 @@
+{
+    "groups": {
+        "Модераторы": {
+            "permissions": [
+                {
+                    "app_label": "catalog",
+                    "model": "product",
+                    "codename": "can_unpublish_product"
+                },
+                {
+                    "app_label": "catalog",
+                    "model": "product",
+                    "codename": "delete_product"
+                }
+            ],
+            "users": [
+                "developer_test@yandex.ru"
+            ]
+        },
+        "Контент-менеджеры": {
+            "permissions": [
+                {
+                    "app_label": "sky_blog",
+                    "model": "article",
+                    "codename": "change_article"
+                },
+                {
+                    "app_label": "sky_blog",
+                    "model": "article",
+                    "codename": "delete_article"
+                }
+            ],
+            "users": [
+                "staff@sky.store"
+            ]
+        },
+        "БД тест": {
+            "permissions": [
+                {
+                    "app_label": "sky_blog",
+                    "model": "article",
+                    "codename": "change_article"
+                },
+                {
+                    "app_label": "sky_blog",
+                    "model": "product",
+                    "codename": "test_bd"
+                }
+            ],
+            "users": []
+        }
+    },
+    "users": {
+        "dfg@rge.com": {
+            "username": "dfreegeg",
+            "email": "dfg@rge.com",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$Tvtd8q0YmROc9OKRkCTHIM$C+r5IfiBp3dFQNJd9E5vANBe+BJjdNApVCy/8NGX2No=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "common@user.ru": {
+            "username": "fghj",
+            "email": "common@user.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": "password edcftgbhu",
+            "password": "pbkdf2_sha256$1200000$vbykBs3oW98VCXPLJHjz2P$0mknFbnftexTFdPPS7Mv177lAT3Lg1coPGPKwIvuJQw=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "image@exist.ru": {
+            "username": "image",
+            "email": "image@exist.ru",
+            "avatar": "avatars/image.png",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$68pqpYsyXsoix8LpzmgSzJ$CjvTZuiPZ6Dcb1wSL6/dxHG1ndx8j05MFPDcTH/C9U0=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "staff@sky.store": {
+            "username": "just_staff",
+            "email": "staff@sky.store",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$vCAX60F9Qf4WfhN6cKIZPz$Gw+QDEzMqlHFwyWMnrRYgj7D2av5IqaZPWR/gudE+qg=",
+            "is_superuser": false,
+            "is_staff": true,
+            "is_active": true
+        },
+        "developer_test@yandex.ru": {
+            "username": "qwertrgeg",
+            "email": "developer_test@yandex.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$QBfMT7ZNoZupLYMZNujbyW$+wWOrpkPFokckxzDSIw6a6vzbahLPBk/Goipn064U7g=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "qwert@yandex.ru": {
+            "username": "sdsfg",
+            "email": "qwert@yandex.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$PzRxUC03ONuq7QkLR9FhU6$UFZ9IkDmjIrdYs0v8bSPXf2KxbaB7ZbClZC55XokIZ4=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "dfbgdfgd@bfgnfg.ru": {
+            "username": "sgmfsdfbs",
+            "email": "dfbgdfgd@bfgnfg.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$d3uZyM55ieGl2I4vXYGP0y$+NZi1/8a3WSu1SKOluy3hdYrFSWVnYwLEtJ/G2Zp+54=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "super@mail.ru": {
+            "username": "super_admin",
+            "email": "super@mail.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$C1f4PV3v7fimrFMzTMRfY5$Wxr9pHSPK96b5tZt3ON+3PnvGKXza7zxc6fL2s54Y+w=",
+            "is_superuser": true,
+            "is_staff": true,
+            "is_active": true
+        },
+        "wefwefwefwef@rgregeg.ru": {
+            "username": "wefwefwefwf",
+            "email": "wefwefwefwef@rgregeg.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$DHrMXu8GCxtNxLyHivnh6g$DPHFVXEjvXH8YB8HpJK3lhzvHlLlIkum8hSw8zZoHUA=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        },
+        "shttrhst@uuu.ru": {
+            "username": "yjdydh",
+            "email": "shttrhst@uuu.ru",
+            "avatar": "",
+            "phone_number": null,
+            "country": null,
+            "password": "pbkdf2_sha256$1200000$fJcdx28ArCUQqHPg7965Ir$kI0KVsIdGmEf9egoSENo0RrNCZR0Qjl/4lxWasFdgfI=",
+            "is_superuser": false,
+            "is_staff": false,
+            "is_active": true
+        }
+    }
+}
