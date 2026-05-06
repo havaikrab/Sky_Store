@@ -33,7 +33,7 @@ class HomeListView(ListView):
         """Передача заголовка в шаблон"""
 
         context = super().get_context_data(**kwargs)
-        context.update({"title": "Каталог Sky Store", "greeting": True})
+        context.update({"title": "Каталог Sky Store", "greeting": True, "page_url_name": "catalog:catalog"})
         return context
 
 
@@ -54,7 +54,7 @@ class ModerationRequiredListView(LoginRequiredMixin, PermissionRequiredMixin, Li
         """Передача заголовка в шаблон"""
 
         context = super().get_context_data(**kwargs)
-        context.update({"title": "Product moderation"})
+        context.update({"title": "Product moderation", "page_url_name": "catalog:moderator_control"})
         return context
 
 
@@ -114,6 +114,20 @@ class ProductDetailView(DetailView):
     """Контроллер отображения страницы определенного продукта"""
 
     model = Product
+
+    def get_object(self, queryset: Optional[QuerySet] = None) -> Product:
+        """Ограничение доступа к страницам неопубликованных продуктов пользователей,
+        не зарегистрированных в группе модераторов"""
+
+        current_product = super().get_object()
+        current_user = self.request.user
+        if isinstance(current_product, Product) and isinstance(current_user, CustomUser):
+            if not current_product.is_published and not current_user.has_perms(
+                ["catalog.delete_product", "catalog.can_unpublish_product"]
+            ):
+                raise PermissionDenied
+            return current_product
+        raise PermissionDenied
 
     def get_context_data(self, **kwargs: Any) -> dict:
         """Передача в шаблон статуса пользователя"""
@@ -216,10 +230,10 @@ class ProductPublishView(PermissionRequiredMixin, RedirectView):
         и редирект на страницу каталога опубликованных продуктов"""
 
         product_id = kwargs.get("pk")
-        product = Product.objects.get(id=product_id)
-        if isinstance(product, Product):
-            product.is_published = True
-            product.save()
+        current_product = Product.objects.get(id=product_id)
+        if isinstance(current_product, Product):
+            current_product.is_published = True
+            current_product.save()
         return reverse("catalog:home")
 
 
