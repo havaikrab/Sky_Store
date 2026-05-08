@@ -12,7 +12,7 @@
 {% block content %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger" style="width: 300px">Удалить</button>
-        <a class="btn btn-primary" style="width: 300px" href="{% url 'sky_blog:blog' 1 %}" role="button">Отмена</a>
+        <button type="submit" class="btn btn-outline-danger" style="width: 300px">Удалить</button>
+        <a class="btn btn-outline-primary" style="width: 300px" href="{% url 'sky_blog:blog' 1 %}" role="button">Отмена</a>
     </form>
 {% endblock %}

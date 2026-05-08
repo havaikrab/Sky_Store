@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Skystore {% endblock %}
+{% block title %} {{title}} {% endblock %}
 
 {% block header %}
     {% include 'catalog/header.html' %}
@@ -33,7 +33,7 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Страницы</h5>
         <nav class="ms-5">
             {% for page in paginator %}
-                <a class="p-2 btn btn-outline-primary" style="width: 40px" href="{% url 'catalog:catalog' page=page.number %}">{{ page.number }}</a>
+                <a class="p-2 btn btn-outline-primary" style="width: 40px" href="{% url page_url_name page=page.number %}">{{ page.number }}</a>
             {% endfor %}
         </nav>
     </div>

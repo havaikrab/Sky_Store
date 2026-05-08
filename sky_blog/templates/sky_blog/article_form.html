@@ -55,6 +55,11 @@
                                 <input type="checkbox" name="is_published" class="form-check-input" id="is_published" value="true">
                             </div>
                             <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Сохранить</button>
+                            {% if object %}
+                                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'sky_blog:article' pk=object.pk %}">Отмена</a>
+                            {% else %}
+                                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'sky_blog:blog' page=1 %}">Отмена</a>
+                            {% endif %}
                         </div>
                         <div class="col d-flex flex-column">
                             <label for="content">Содержание</label>

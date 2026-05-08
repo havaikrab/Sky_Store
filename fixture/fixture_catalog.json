@@ -1,0 +1,164 @@
+{
+    "categories": {
+        "1": {
+            "name": "fdb",
+            "description": "dbdfb"
+        },
+        "2": {
+            "name": "rereefe",
+            "description": "effewfef"
+        },
+        "3": {
+            "name": "sdsdfbsdv",
+            "description": "sdbdvscdcsdc"
+        },
+        "4": {
+            "name": "sydfkytrg",
+            "description": "swf5y6q3"
+        }
+    },
+    "products": [
+        {
+            "name": "bloger_product",
+            "description": "gngfnsgfnsgfsn",
+            "photo": "",
+            "category": 4,
+            "price": 655,
+            "is_published": false,
+            "owner": "staff@sky.store"
+        },
+        {
+            "name": "c c cv vc",
+            "description": "bsdbsdbsfsbs",
+            "photo": "",
+            "category": 2,
+            "price": 55,
+            "is_published": true,
+            "owner": "qwert@yandex.ru"
+        },
+        {
+            "name": "dmdhmdhmdn",
+            "description": "dydtydynydytn",
+            "photo": "",
+            "category": 2,
+            "price": 76565,
+            "is_published": false,
+            "owner": "common@user.ru"
+        },
+        {
+            "name": "ffdbdfb",
+            "description": "dfdbdfbd",
+            "photo": "",
+            "category": 1,
+            "price": 444,
+            "is_published": false,
+            "owner": "developer_test@yandex.ru"
+        },
+        {
+            "name": "fjgmfbdvddxfcghfj",
+            "description": "gmchmfbzdvdfbxgng",
+            "photo": "",
+            "category": 2,
+            "price": 444999,
+            "is_published": false,
+            "owner": "common@user.ru"
+        },
+        {
+            "name": "gffgddv",
+            "description": "fhfdbd",
+            "photo": "",
+            "category": 2,
+            "price": 111111,
+            "is_published": false,
+            "owner": "developer_test@yandex.ru"
+        },
+        {
+            "name": "gnsgnsgnssnsgn",
+            "description": "sgnsgnsgns",
+            "photo": "",
+            "category": 2,
+            "price": 43434,
+            "is_published": true,
+            "owner": "common@user.ru"
+        },
+        {
+            "name": "jtyjehae",
+            "description": "hsrthrtsjstr",
+            "photo": "",
+            "category": 2,
+            "price": 76676,
+            "is_published": false,
+            "owner": "staff@sky.store"
+        },
+        {
+            "name": "new_product",
+            "description": "kjwovewvpwevlwe",
+            "photo": "",
+            "category": 4,
+            "price": 44,
+            "is_published": false,
+            "owner": "developer_test@yandex.ru"
+        },
+        {
+            "name": "nnnrtnsr",
+            "description": "rtnsrtnstnstn",
+            "photo": "",
+            "category": 4,
+            "price": 5453,
+            "is_published": false,
+            "owner": "developer_test@yandex.ru"
+        },
+        {
+            "name": "sgbsgb",
+            "description": "nsngnsfg",
+            "photo": "",
+            "category": 4,
+            "price": 5453,
+            "is_published": false,
+            "owner": "common@user.ru"
+        },
+        {
+            "name": "ssrtbstbsbt",
+            "description": "ytbtsrtbss",
+            "photo": "images/image.png",
+            "category": 2,
+            "price": 555,
+            "is_published": false,
+            "owner": "image@exist.ru"
+        },
+        {
+            "name": "super_product",
+            "description": "dfymdynstndymtfumn",
+            "photo": "",
+            "category": 4,
+            "price": 665,
+            "is_published": false,
+            "owner": "super@mail.ru"
+        },
+        {
+            "name": "uuuuu",
+            "description": "ddfbdfb",
+            "photo": "",
+            "category": 2,
+            "price": 58,
+            "is_published": false,
+            "owner": "developer_test@yandex.ru"
+        },
+        {
+            "name": "ымымым",
+            "description": "ывмывмывмывмыв",
+            "photo": "",
+            "category": 2,
+            "price": 66,
+            "is_published": true,
+            "owner": "developer_test@yandex.ru"
+        }
+    ],
+    "contacts": [
+        {
+            "name": "енлнкепуацаца",
+            "phone": "укпукпукпцкцп",
+            "message": "церуноурепкп"
+        }
+    ]
+}

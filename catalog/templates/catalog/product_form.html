@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %} Разместить продукт {% endblock %}
 
 {% block header %}
@@ -21,34 +23,7 @@
             <div class="card-body">
                 <form method="post" action="" class="form-floating text-start" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{form.as_p}}
-                    <div class="mb-3">
-                        {% if object.photo %}
-                            <div class="mt-2">
-                                <p>Текущее изображение:</p>
-                                <img src="{{ object.photo.url }}" alt="{{ object.name }}" style="max-width: 100%; max-height: 100px;" class="mt-1">
-                                <div class="mb-3 form-check">
-                                    <label class="form-check-label" for="delete_photo">Удалить фото</label>
-                                    <input type="checkbox" name="delete_photo" class="form-check-input" id="delete_photo" value="true">
-                                </div>
-                            </div>
-                        {% endif %}
-                        <label for="photo">
-                            {% if object.photo %}
-                                Сменить фото
-                            {% else %}
-                                Фото
-                            {% endif %}
-                        </label>
-                        <input type="file" name="photo" class="form-control" id="photo" accept="image/*">
-                    </div>
-                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">
-                        {% if object %}
-                            Применить
-                        {% else %}
-                            Опубликовать
-                        {% endif %}
-                    </button>
+                    {% crispy form %}
                 </form>
             </div>
         </div>

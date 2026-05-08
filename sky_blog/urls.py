@@ -6,7 +6,8 @@ from .apps import SkyBlogConfig
 app_name = SkyBlogConfig.name
 
 urlpatterns = [
-    path("blog/page/<int:page>/", views.BlogHome.as_view(), name="blog"),
+    path("blog/<int:page>/", views.BlogHome.as_view(), name="blog"),
+    path("unpublished/<int:page>/", views.BlogUnpublishedList.as_view(), name="unpublished"),
     path("article/<int:pk>/", views.ArticleDetailView.as_view(), name="article"),
     path("create_article/", views.CreateArticle.as_view(), name="create_article"),
     path("article/update/<int:pk>/", views.UpdateArticle.as_view(), name="update_article"),

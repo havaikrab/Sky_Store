@@ -3,7 +3,7 @@
     <nav class="ms-5 container-fluid d-flex align-items-center gap-2">
 
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Каталог</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:blog' page=1 %}">Sky Blog</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'sky_blog:blog' 1 %}">Sky Blog</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
         {% if user.is_authenticated %}
             <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:create_product_no_category' %}">Поделиться продуктом</a>
@@ -19,3 +19,16 @@
         {% endif %}
     </nav>
 </div>
+{% if perms.catalog.can_unpublish_product or perms.sky_blog.change_article %}
+    <div class="d-flex flex-row align-items-center mb-3 pb-3 ps-5 border-bottom">
+        <h5 style="color: red; white-space: nowrap">Инструменты модератора</h5>
+        <nav class="ms-1 container-fluid d-flex align-items-center gap-2">
+            {% if perms.catalog.can_unpublish_product %}
+                <a class="p-2 btn btn-outline-danger" href="{% url 'catalog:moderator_control' 1 %}">Публикация продуктов</a>
+            {% endif %}
+            {% if perms.sky_blog.change_article %}
+                <a class="p-2 btn btn-outline-danger" href="{% url 'sky_blog:unpublished' 1 %}">Редакция статей</a>
+            {% endif %}
+        </nav>
+    </div>
+{% endif %}

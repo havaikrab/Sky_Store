@@ -1,4 +1,3 @@
-import os
 from typing import Any, Optional
 
 from django.contrib import messages as msgs
@@ -9,6 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail
 from django.db.models import QuerySet
+from django.db.models.fields.files import ImageFieldFile
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -76,24 +76,26 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Добавление поля для последующего возможного сохранения в нем пути к текущему фото пользователя"""
         super().__init__(*args, **kwargs)
-        self.old_photo: str | None = None
+        self.old_photo: ImageFieldFile | None = None
 
     def get_object(self, queryset: Optional[QuerySet] = None) -> AbstractBaseUser | AnonymousUser:
-        """Определение объекта зарегистрированного пользователя и заполнение поля old_photo"""
+        """Определение объекта авторизованного пользователя и заполнение поля old_photo"""
 
         current_user = self.request.user
         if isinstance(current_user, CustomUser):
-            current_avatar = current_user.avatar
-            if current_avatar:
-                self.old_photo = current_avatar.path
+            self.old_photo = current_user.avatar
         return current_user
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         """Проверка наличия в форме отметки об удалении старого фото пользователя"""
 
-        if "avatar-clear" in self.request.POST and isinstance(self.old_photo, str):
-            os.remove(self.old_photo)
-        return super().form_valid(form)
+        new_photo = form.cleaned_data.get("avatar")
+        clear_photo = self.request.POST.get("avatar-clear")
+        response = super().form_valid(form)
+        if self.old_photo:
+            if clear_photo == "on" or new_photo:
+                self.old_photo.delete(save=False)
+        return response
 
 
 class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):

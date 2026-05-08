@@ -1,7 +1,18 @@
 from typing import Optional
 
+from django.core.exceptions import ValidationError
 from django.core.files.base import File
 from django.forms import BaseModelForm
+
+FORBIDDEN_WORDS = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар"]
+
+
+def validate_forbidden_words(value: str) -> None:
+    """Функция-валидатор, исключающая использование слов из списка FORBIDDEN_WORDS"""
+
+    for word in FORBIDDEN_WORDS:
+        if word in value.lower():
+            raise ValidationError(f"Запрещено использовать слово {word}!")
 
 
 def common_file_validator(
