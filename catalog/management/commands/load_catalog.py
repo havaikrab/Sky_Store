@@ -66,6 +66,9 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> None:
         """Вызов команды из терминала"""
 
-        data = self.__get_data()
-        self.__load_categories(data)
-        self.__load_contacts(data.get("contacts", list()))
+        try:
+            data = self.__get_data()
+            self.__load_categories(data)
+            self.__load_contacts(data.get("contacts", list()))
+        except FileNotFoundError:
+            print("Файл фикстуры fixture/fixture_catalog.json не обнаружен.")

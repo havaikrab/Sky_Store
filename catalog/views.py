@@ -2,6 +2,7 @@ from typing import Any, Optional
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from django.db.models.fields.files import ImageFieldFile
@@ -119,13 +120,19 @@ class ProductDetailView(DetailView):
         """Ограничение доступа к страницам неопубликованных продуктов пользователей,
         не зарегистрированных в группе модераторов"""
 
-        current_product = super().get_object()
+        product_id = self.kwargs.get("pk")
+        product_cache_key = f"product_{product_id}"
+        current_product = cache.get(product_cache_key)
+        if current_product is None:
+            current_product = super().get_object()
+            cache.add(product_cache_key, current_product, 60)
         current_user = self.request.user
         if isinstance(current_product, Product) and isinstance(current_user, CustomUser):
             if not current_product.is_published and not current_user.has_perms(
                 ["catalog.delete_product", "catalog.can_unpublish_product"]
             ):
                 raise PermissionDenied
+
             return current_product
         raise PermissionDenied
 

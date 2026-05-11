@@ -26,4 +26,7 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> None:
         """Вызов команды из терминала"""
 
-        self.__load_data()
+        try:
+            self.__load_data()
+        except FileNotFoundError:
+            print("Файл фикстуры fixture/fixture_sky_blog.json не обнаружен.")
