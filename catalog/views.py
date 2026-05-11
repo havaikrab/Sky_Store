@@ -7,7 +7,8 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from django.db.models.fields.files import ImageFieldFile
 from django.forms import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseBase
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, RedirectView, UpdateView
 
@@ -16,6 +17,7 @@ from users.models import CustomUser
 
 from .forms import CategoryForm, ProductForm
 from .models import Category, Contact, Product
+from .services import get_products
 
 
 class HomeListView(ListView):
@@ -28,13 +30,50 @@ class HomeListView(ListView):
     def get_queryset(self) -> QuerySet:
         """Определение списка продуктов, разрешенных для публикации"""
 
-        return super().get_queryset().filter(is_published=True)
+        return get_products()
 
     def get_context_data(self, **kwargs: Any) -> dict:
         """Передача заголовка в шаблон"""
 
         context = super().get_context_data(**kwargs)
-        context.update({"title": "Каталог Sky Store", "greeting": True, "page_url_name": "catalog:catalog"})
+        categories_list = Category.objects.all()
+        context.update(
+            {
+                "title": "Каталог Sky Store",
+                "greeting": True,
+                "page_url_name": "catalog:catalog",
+                "categories": categories_list,
+            }
+        )
+        return context
+
+
+class ProductsByCategoryListView(ListView):
+    """Контроллер отображения продуктов определенной категории"""
+
+    model = Product
+    paginate_by = 8
+    ordering = ["-updated_at"]
+    template_name = "catalog/products_by_category.html"
+    category: Category
+
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
+        """Сохранение"""
+
+        category_id = self.kwargs.get("cat_id")
+        self.category = get_object_or_404(Category, id=category_id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self) -> QuerySet:
+        """Определение списка продуктов, заданной категории"""
+
+        return get_products(category_id=self.category.pk)
+
+    def get_context_data(self, **kwargs: Any) -> dict:
+        """Передача заголовка в шаблон"""
+
+        context = super().get_context_data(**kwargs)
+        context.update({"category": self.category})
         return context
 
 
