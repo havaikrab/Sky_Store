@@ -73,7 +73,9 @@ class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any) -> None:
         """Вызов команды из терминала"""
-
-        data = self.__get_data()
-        self.__load_users(data.get("users", dict()))
-        self.__load_groups(data.get("groups", dict()))
+        try:
+            data = self.__get_data()
+            self.__load_users(data.get("users", dict()))
+            self.__load_groups(data.get("groups", dict()))
+        except FileNotFoundError:
+            print("Файл фикстуры fixture/fixture_users.json необнаружен.")

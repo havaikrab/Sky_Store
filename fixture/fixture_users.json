@@ -33,21 +33,6 @@
             "users": [
                 "staff@sky.store"
             ]
-        },
-        "БД тест": {
-            "permissions": [
-                {
-                    "app_label": "sky_blog",
-                    "model": "article",
-                    "codename": "change_article"
-                },
-                {
-                    "app_label": "sky_blog",
-                    "model": "product",
-                    "codename": "test_bd"
-                }
-            ],
-            "users": []
         }
     },
     "users": {
